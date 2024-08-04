@@ -7,8 +7,12 @@
 # More details at https://github.com/eslint/eslint
 # and https://eslint.org
 
+// eslint.config.js
+
 import { defineConfig } from 'eslint';
 import eslintPluginReact from 'eslint-plugin-react';
+import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
+import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default defineConfig({
   languageOptions: {
@@ -18,17 +22,45 @@ export default defineConfig({
   },
   plugins: {
     react: eslintPluginReact,
+    'react-hooks': eslintPluginReactHooks,
+    'jsx-a11y': eslintPluginJsxA11y,
   },
   rules: {
     'no-console': 'warn',
-    'react/boolean-prop-naming': ['error', {
-      rule: '^(is|has)[A-Z]([A-Za-z0-9]?)+',
-    }],
-    // Agrega otras reglas aquí según sea necesario
+    'no-unused-vars': ['warn', { args: 'none' }],
+    'semi': ['error', 'always'],
+    'quotes': ['error', 'single'],
+    'react/prop-types': 'off', // Si usas TypeScript, puedes desactivar esta regla
+    'react/react-in-jsx-scope': 'off', // No es necesario en Next.js
+    'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.js'] }],
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'jsx-a11y/anchor-is-valid': [
+      'warn',
+      {
+        aspects: ['noHref', 'invalidHref', 'preferButton'],
+      },
+    ],
+    'jsx-a11y/alt-text': 'warn',
+    'jsx-a11y/label-has-associated-control': [
+      'warn',
+      {
+        assert: 'either',
+      },
+    ],
+    'jsx-a11y/accessible-emoji': 'warn',
   },
   settings: {
     react: {
       version: 'detect', // Detecta automáticamente la versión de React
+    },
+    'import/resolver': {
+      alias: {
+        map: [['@', './src']],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
     },
   },
 });
